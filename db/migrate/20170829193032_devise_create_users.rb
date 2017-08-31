@@ -5,6 +5,10 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
+      t.integer :user_type_id,         null: false
+      t.string :contact,              null: false, default: ""
+      t.string :username,             null: false, default: ""
+
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -32,9 +36,13 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
 
 
       t.timestamps null: false
+      t.boolean :status, default: true
     end
 
     add_index :users, :email,                unique: true
+    add_index :users, :contact,                unique: true
+    add_index :users, :username,                unique: true
+    add_index :users, :user_type_id,            unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true
     add_index :users, :unlock_token,         unique: true

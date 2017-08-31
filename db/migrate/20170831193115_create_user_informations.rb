@@ -9,6 +9,7 @@ class CreateUserInformations < ActiveRecord::Migration[5.0]
       t.string :pin_code
       t.string :country
       t.references :user, index: true
+      t.boolean :status, default: true
       t.timestamps
     end
   end

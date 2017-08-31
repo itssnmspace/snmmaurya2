@@ -93,4 +93,13 @@ gem 'searchkick'
 
 group :development, :test do
   gem 'rspec-rails'
-end  
+  gem 'capybara'
+  gem 'factory_girl_rails'
+end
+
+
+group :test do
+  gem 'shoulda-matchers', require: false
+  gem 'database_cleaner'
+  gem 'faker'
+end
