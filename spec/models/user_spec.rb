@@ -2,47 +2,32 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  it 'Should valid with email, username and contact' do
-    FactoryGirl.create(:user)
+  describe 'Associations' do
+    it {is_expected.to belong_to(:user_type)}
+    it {is_expected.to have_many(:user_informations)}
+    it {is_expected.to have_many(:user_emails)}
+    it {is_expected.to have_many(:user_contacts)}
   end
 
-  it 'Should not valid without email' do
-    user = FactoryGirl.build(:user, email: nil)
-    user.valid?
-    expect(user.errors[:email]).to include("can't be blank")
+  describe 'Validations' do
+    subject { FactoryGirl.build(:user) }
+
+    it {should validate_presence_of(:email)}
+    it {should validate_presence_of(:contact)}
+    it {should validate_presence_of(:username)}
+
+    # it {should validate_uniqueness_of(:email)}
+    # it {should validate_uniqueness_of(:contact)}
+    # it {should validate_uniqueness_of(:username)}
   end
 
-  it 'Should not valid without username' do
-    user = FactoryGirl.build(:user, username: nil)
-    user.valid?
-    expect(user.errors[:username]).to include("can't be blank")
+  describe 'User Type' do
+    before do
+      @user_type = FactoryGirl.create(:user_type)
+      @user = FactoryGirl.create(:user, user_type: @user_type)
+    end
+    it 'Should valid' do
+      expect(@user).to be_valid
+    end
   end
-
-  it 'Should not valid without contact' do
-    user = FactoryGirl.build(:user, contact: nil)
-    user.valid?
-    expect(user.errors[:contact]).to include("can't be blank")
-  end
-
-  it 'Should not valid with duplicate email' do
-    user = FactoryGirl.create(:user)
-    nuser = FactoryGirl.build(:user, email: user.email)
-    nuser.valid?
-    expect(nuser.errors[:email]).to include("has already been taken")
-  end
-
-  it 'Should not valid with duplicate contact' do
-    user = FactoryGirl.create(:user)
-    nuser = FactoryGirl.build(:user, contact: user.contact)
-    nuser.valid?
-    expect(nuser.errors[:contact]).to include("has already been taken")
-  end
-  
-
-  it 'Should not valid with duplicate username' do
-    user = FactoryGirl.create(:user)
-    nuser = FactoryGirl.build(:user, username: user.username)
-    nuser.valid?
-    expect(nuser.errors[:username]).to include("has already been taken")
-  end  
 end
