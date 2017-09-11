@@ -9,16 +9,20 @@ RSpec.describe User, type: :model do
     it {is_expected.to have_many(:user_contacts)}
   end
 
-  describe 'Validations' do
+  describe 'Presence Validations' do
     subject { FactoryGirl.build(:user) }
 
     it {should validate_presence_of(:email)}
     it {should validate_presence_of(:contact)}
     it {should validate_presence_of(:username)}
+  end
 
-    # it {should validate_uniqueness_of(:email)}
-    # it {should validate_uniqueness_of(:contact)}
-    # it {should validate_uniqueness_of(:username)}
+  describe 'Uniqeness Validations' do
+    subject { FactoryGirl.build(:user) }
+
+    it {should validate_uniqueness_of(:email).ignoring_case_sensitivity}
+    it {should validate_uniqueness_of(:contact).ignoring_case_sensitivity}
+    it {should validate_uniqueness_of(:username).ignoring_case_sensitivity}
   end
 
   describe 'User Type' do

@@ -11,5 +11,6 @@ class User < ApplicationRecord
 
   validates :email, :username, :contact, presence: true
   validates :email, :username, :contact, uniqueness: true
+  validates :contact, length: {is: 10}
 
 end
